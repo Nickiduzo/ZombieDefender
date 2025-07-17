@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
-public class CharacterExperience : MonoBehaviour
+public class CharacterExperience : MonoBehaviour, IDataPersistance
 {
+    public static event Action<int> OnTakeExp;
+
     [SerializeField] private EXPData expData;
     [SerializeField] private CharacterExperienceUI characterExp;
 
@@ -11,18 +14,14 @@ public class CharacterExperience : MonoBehaviour
     private void Start()
     {
         EnemySpawner.OnRemove += ExperienceHandler;
-
-        currentLevel = 0;
-        currentExp = 0;
-        UpdateExp(0);
-        
-        PlayerManager.instance.LVL = currentLevel;
     }
 
     // increase and omptimize that logic for different enemy types(bosses, enemies)
     private void ExperienceHandler(int level)
     {
-        float result = 100 * (level - currentLevel + 1);
+        float result = 100 * (level - currentLevel); 
+
+        OnTakeExp?.Invoke(((int)result));
 
         UpdateExp(result);
     }
@@ -44,12 +43,28 @@ public class CharacterExperience : MonoBehaviour
             }
         }
 
-        PlayerManager.instance.LVL = currentLevel;
+        PlayerManager.instance.Lvl = currentLevel;
         characterExp.UpdateExpInfo(currentExp, expData.GetAmountExpByLvl(currentLevel), currentLevel);
     }
 
     private void OnDisable()
     {
         EnemySpawner.OnRemove -= ExperienceHandler;
+    }
+
+    public void LoadData(GameData data)
+    {
+        currentLevel = data.playerLevel;
+        currentExp = data.playerExperience;
+
+        UpdateExp(0);
+        characterExp.UpdateExpInfo(currentExp, expData.GetAmountExpByLvl(currentLevel), currentLevel);
+        PlayerManager.instance.Lvl = currentLevel;
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerLevel = currentLevel;
+        data.playerExperience = currentExp;
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CharacterHealth : MonoBehaviour
 {
     public static event Action<bool> OnPlayerDeath;
+    public static event Action<int> OnDamageUI;
 
     [SerializeField] private Transform respawnPosition;
     [SerializeField] private CharacterController controller;
@@ -42,6 +43,8 @@ public class CharacterHealth : MonoBehaviour
 
         if (health > 0)
         {
+            OnDamageUI?.Invoke(damage);
+
             anim.SetTrigger("isDamaged");
             health -= damage;
             
@@ -53,6 +56,8 @@ public class CharacterHealth : MonoBehaviour
 
         if(health <= 0 && !isDead)
         {
+            OnDamageUI?.Invoke(damage);
+
             playerSlider.gameObject.SetActive(false);
             amoutHealthPoints.gameObject.SetActive(false);
 

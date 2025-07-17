@@ -36,7 +36,7 @@ public class CharacterCombat : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             time = timer;
-            PlayerManager.instance.SetAttack();
+            PlayerManager.instance.SetAttack(1);
             OnAttack?.Invoke(0);
         }
     }
@@ -46,7 +46,7 @@ public class CharacterCombat : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             time = timer;
-            PlayerManager.instance.SetAttack();
+            PlayerManager.instance.SetAttack(2);
             OnAttack?.Invoke(1);
         }
     }

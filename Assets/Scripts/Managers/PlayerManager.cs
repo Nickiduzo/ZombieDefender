@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -21,8 +22,13 @@ public class PlayerManager : MonoBehaviour
 
     private float currentJumpTimer = 0f;
 
-    // it's just example for npc questions
-    public int LVL { get; set; }
+    public int Lvl { get; set; }
+
+    [Header("UI Cooldowns")]
+    [SerializeField] private Image leftAttackImage;
+    [SerializeField] private Image rightAttackImage;
+    [SerializeField] private Image rollCooldownImage;
+    [SerializeField] private Image jumpCooldownImage;
 
     private void Awake()
     {
@@ -40,6 +46,11 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         CharacterHealth.OnPlayerDeath += GetCurrentPlayerHealth;
+
+        leftAttackImage.fillAmount = 1f;
+        rightAttackImage.fillAmount = 1f;
+        rollCooldownImage.fillAmount = 1f;
+        jumpCooldownImage.fillAmount = 1f;
     }
 
     private void Update()
@@ -65,6 +76,30 @@ public class PlayerManager : MonoBehaviour
                 isJumped = false;
             }
         }
+
+        #region UICooldowns
+
+        if (leftAttackImage.fillAmount < 1f)
+        {
+            leftAttackImage.fillAmount += Time.deltaTime / attackTimer;
+        }
+
+        if (rightAttackImage.fillAmount < 1f)
+        {
+            rightAttackImage.fillAmount += Time.deltaTime / attackTimer;
+        }
+
+        if (jumpCooldownImage.fillAmount < 1f)
+        {
+            jumpCooldownImage.fillAmount += Time.deltaTime / jumpTimer;
+        }
+
+        if (rollCooldownImage.fillAmount < 1f)
+        {
+            rollCooldownImage.fillAmount += Time.deltaTime / rollTimer;
+        }
+        
+        #endregion
     }
 
     private void GetCurrentPlayerHealth(bool state)
@@ -76,20 +111,33 @@ public class PlayerManager : MonoBehaviour
     {
         isNotInteractable = true;
         currentTimer = rollTimer;
+
+        rollCooldownImage.fillAmount = 0f;
     }
 
-    public void SetAttack()
+    public void SetAttack(int type)
     {
         isNotInteractable = true;
         currentTimer = attackTimer;
+
+        if (type == 1)
+        {
+            leftAttackImage.fillAmount = 0f;
+        }
+        else
+        {
+            rightAttackImage.fillAmount = 0f;
+        }
     }
 
     public void SetJump()
     {
         isJumped = true;
         currentJumpTimer = jumpTimer;
-    }
 
+        jumpCooldownImage.fillAmount = 0f;
+    }
+    
     public void GetHit()
     {
         isNotInteractable = true;

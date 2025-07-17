@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Dummy : MonoBehaviour
 {
+    public static event Action<int> OnDamage; 
+
     [SerializeField] private Animator anim;
 
     public string UniqueID { get; set; }
@@ -19,6 +21,7 @@ public class Dummy : MonoBehaviour
         if (UniqueID == id)
         {
             anim.SetTrigger("isAttacked");
+            OnDamage(damage);
         }
     }
 

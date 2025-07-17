@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour, IDamageable
 {
     public static event Action<int, bool> OnPlayerHit;
     public static event Action<string, int> OnDeath;
+    public static event Action<int> OnDamageUI;
 
     [SerializeField] private GameObject handHitObject;
     [SerializeField] private NavMeshAgent agent;
@@ -19,7 +20,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public event Action<int, int> OnHealthChanged;
 
     public string UniqueID { get; set; }
-    private int maxHealth = 100;
+    public int maxHealth = 100;
     private int damage = 25;
     public int Lvl { get; set; }
 
@@ -49,6 +50,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         if (UniqueID == id && currentHealth > 0)
         {
+            OnDamageUI?.Invoke(damage);
             currentHealth -= damage;
             //print($"Zombie with ID:{UniqueID}_" + health);
             anim.SetTrigger("isAttacked");
@@ -113,9 +115,11 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         UniqueID = Guid.NewGuid().ToString();
 
-        Lvl = UnityEngine.Random.Range(PlayerManager.instance.LVL, PlayerManager.instance.LVL + 5);
-        damage *= Lvl;
-        maxHealth *= Lvl;
+        Lvl = UnityEngine.Random.Range(PlayerManager.instance.Lvl, PlayerManager.instance.Lvl + 5);
+        
+        damage += Mathf.RoundToInt(damage * (Lvl / 100f));
+
+        maxHealth += Mathf.RoundToInt(maxHealth * (Lvl / 100f));
     }
 
     private void OnDisable()
