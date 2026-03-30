@@ -12,41 +12,49 @@ public class NPC : MonoBehaviour, IInteractable
     [Header("Player Interaction")]
     [SerializeField] private Transform pointDefault;
     [SerializeField] private bool isInteraction = false;
+    [SerializeField] private float distanceInteraction = 3f;
     private Transform player;
 
-    [Header("NPC Elements")]
-    [SerializeField] private Animator anim;
 
+    private Animator anim;
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (player == null) Debug.Log("Can't find player transform");
+        anim = GetComponent<Animator>();
+    }
 
     private void Update()
     {
-        LookAtTarget(player);
+        if(isInteraction && player != null)
+        {
+            LookAtTarget(player);
+        }
+        else
+        {
+            LookAtTarget(pointDefault);
+        }
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if(distanceToPlayer > distanceInteraction)
+        {
+            isInteraction = false;
+        }
     }
 
     public virtual void Interact(Transform target)
     {
         anim.SetTrigger("isTalk");
         isInteraction = true;
-        player = target;
-        LookAtTarget(player);
+        LookAtTarget(target);
 
         Debug.Log(name + " interaction");
     }
 
     private void LookAtTarget(Transform target)
-    {
-        Vector3 targetPosition;
-
-        if (isInteraction)
-        {
-            targetPosition = target.position;
-        }
-        else
-        {
-            targetPosition = pointDefault.position;
-        }
-
-        Vector3 direction = targetPosition - transform.position;
+    {  
+        Vector3 direction = target.position - transform.position;
         direction.y = 0f;
 
         if (direction.magnitude > 0.1f)
@@ -56,24 +64,6 @@ public class NPC : MonoBehaviour, IInteractable
         }
     }
 
-    public void FillQuestion(string description)
-    {
-        GameObject question = Instantiate(questionPrefab, container.transform);
-        TextMeshProUGUI questionDesctiption = question.GetComponentInParent<TextMeshProUGUI>();
-        if (questionDesctiption != null)
-        {
-            questionDesctiption.text = description;
-        }
-    }
-
-    public void FillText(string description)
-    {
-        GameObject conversation = Instantiate(textPrefab, container.transform);
-        if (conversation.TryGetComponent(out TextMeshProUGUI conversationDescription))
-        {
-            conversationDescription.text = description;
-        }
-    }
 
     public string GetInteractText()
     {

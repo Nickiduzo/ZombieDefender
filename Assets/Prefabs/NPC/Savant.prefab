@@ -1409,11 +1409,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87d686f52516b9439518ad38441243e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversationView: {fileID: 0}
-  tradeView: {fileID: 0}
-  player: {fileID: 0}
+  data: {fileID: 11400000, guid: 94d982f3e452d9e4aa16bc9df93488dc, type: 2}
+  container: {fileID: 0}
+  questionPrefab: {fileID: 4193941635105940275, guid: f806344f740254b42ae85f7f12bf5a33,
+    type: 3}
+  textPrefab: {fileID: 5689722483760926442, guid: 6d03d9f8b6e153f4ea597e17a180f6ed,
+    type: 3}
   pointDefault: {fileID: 0}
-  interactionDistance: 2
   isInteraction: 0
   anim: {fileID: 466691103163117531}
 --- !u!136 &1747696558170969510

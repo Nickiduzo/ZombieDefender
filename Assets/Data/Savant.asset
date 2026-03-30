@@ -12,25 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffee74a152036ab40b6b3c1d7368b544, type: 3}
   m_Name: Savant
   m_EditorClassIdentifier: 
-  conversation: []
-  questions:
-  - title: Train with dummy!
-    description: You need train with right and left attack on dummy
-    requiredLevel: 0
-    isCompleted: 0
-  - title: Talk to Smith
-    description: Find Smith and try talk him about your equipment
-    requiredLevel: 0
-    isCompleted: 0
-  - title: Talk to Trader
-    description: Find Trader and explore him inventory
-    requiredLevel: 0
-    isCompleted: 0
-  - title: Talk to Alchemic
-    description: Find and talk to Alchemic. He'll give you instractios
-    requiredLevel: 0
-    isCompleted: 0
-  - title: Kill them all
-    description: Open the door and kill 10 enemies for our bonfires!
-    requiredLevel: 1
-    isCompleted: 0
+  examples:
+  - Hello, how i could help you?
+  - 

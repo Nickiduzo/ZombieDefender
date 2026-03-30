@@ -33,7 +33,7 @@ public class ZombieChase : StateMachineBehaviour
                 animator.SetBool("isChasing", false);
             }
 
-            if (distanceToPlayer < attackRange)
+            if (distanceToPlayer <= attackRange)
             {
                 animator.SetBool("isAttacking", true);
             }
