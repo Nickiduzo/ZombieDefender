@@ -816,6 +816,8 @@ MonoBehaviour:
   handHitObject: {fileID: 7331105963297595254}
   agent: {fileID: 1467268308371600016}
   lvlText: {fileID: 5396269159092731938}
+  loot: {fileID: 1681996521625624451, guid: 4eeb4c6c068c2ce49af4c4f5078fb4b6, type: 3}
+  maxHealth: 100
 --- !u!54 &1124565562603196459
 Rigidbody:
   m_ObjectHideFlags: 0

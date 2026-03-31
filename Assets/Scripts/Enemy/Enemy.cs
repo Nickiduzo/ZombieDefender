@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private TextMeshProUGUI lvlText;
 
+    [SerializeField] private GameObject loot;
+
     private Animator anim;
 
     private int currentHealth = 0;
@@ -69,7 +71,25 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         yield return new WaitForSeconds(delay);
         OnDeath?.Invoke(UniqueID, Lvl);
+        DropLoot();
         Destroy(gameObject);
+    }
+
+    private void DropLoot()
+    {
+        int isAvaible = UnityEngine.Random.Range(0, 100);
+        if(isAvaible < 50)
+        {
+            Loot temp = Instantiate(loot, transform.position, Quaternion.identity).GetComponent<Loot>();
+            if(temp != null)
+            {
+                temp.Initialization();
+            }
+            else
+            {
+                Debug.LogWarning("I can't determine enemie's loot");
+            }
+        }
     }
 
     private void SwitchOnAttack()

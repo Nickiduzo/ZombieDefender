@@ -6,11 +6,7 @@ public class CharacterInteractUI : MonoBehaviour
     [SerializeField] private GameObject interactionContainer;
     [SerializeField] private TextMeshProUGUI interactText;
     [SerializeField] private CharacterInteract playerInteract;
-
-    [SerializeField] private GameObject inventory;
-    [SerializeField] private GameObject inventoryItem;
-    [SerializeField] private Transform inventoryFill;
-
+    
     private void Update()
     {
         if (playerInteract.GetInteractableObject() != null)
@@ -20,23 +16,6 @@ public class CharacterInteractUI : MonoBehaviour
         else
         {
             Hide();
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            InventoryInteract();
-        }
-    }
-
-    private void InventoryInteract()
-    {
-        if(inventory.activeSelf)
-        {
-            inventory.SetActive(false);
-        }
-        else
-        {
-            inventory.SetActive(true);
         }
     }
 

@@ -1,45 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterInventory : MonoBehaviour
+public class CharacterInventory : MonoBehaviour, IDataPersistance
 {
-    [SerializeField] private List<InItem> stuffAmount;
+    private List<Item> inventory;
 
     private void Awake()
     {
-        if(stuffAmount is null)
-        {
-            stuffAmount = new List<InItem>();
-        }
+        inventory = new List<Item>();
     }
 
-
-    private void AddToInventory(InItem inItem)
+    public void AddToInventory(Item inItem)
     {
-        if (stuffAmount is null) return;
-
-        if(stuffAmount.Contains(inItem))
+        var existingItem = inventory.Find(item => item.Type == inItem.Type);
+        if (existingItem != null)
         {
-            stuffAmount[stuffAmount.IndexOf(inItem)].IncreaseAmount();
+            existingItem.Amount += inItem.Amount;
         }
         else
         {
-            stuffAmount.Add(inItem);
+            inventory.Add(inItem);
         }
     }
 
-    private void RemoveFromInventory(InItem inItem)
+    public void RemoveFromInventory(Item inItem)
     {
-        if (stuffAmount is null) return;
-
-        if (stuffAmount.Contains(inItem))
+        if (inventory.Contains(inItem))
         {
-            stuffAmount.Remove(inItem);
+            inventory.Remove(inItem);
         }
     }
 
-    public List<InItem> GetStuffAmount()
+    public List<Item> GetInventory()
     {
-        return stuffAmount;
+        return inventory;
+    }
+
+    public void LoadData(GameData data)
+    {
+        inventory = new List<Item>(data.playerInventory);
+    }
+
+    public void SaveData(ref GameData data)
+    {
+        data.playerInventory = inventory;
     }
 }
