@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static DialogManager Instance;
+
+    private bool dialogState = false;
+
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool GetCurrentDialogState()
     {
-        
-    }
+        return dialogState;
+    } 
 }

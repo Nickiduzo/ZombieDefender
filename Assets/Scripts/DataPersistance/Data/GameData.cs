@@ -6,7 +6,7 @@ public class GameData
 {
     public float playerExperience;
     public int playerLevel;
-    public float playerMoney;
+    public int playerMoney;
     public List<Item> playerInventory;
 
     public GameData()

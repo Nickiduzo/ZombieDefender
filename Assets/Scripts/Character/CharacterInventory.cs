@@ -12,10 +12,10 @@ public class CharacterInventory : MonoBehaviour, IDataPersistance
 
     public void AddToInventory(Item inItem)
     {
-        var existingItem = inventory.Find(item => item.Type == inItem.Type);
+        var existingItem = inventory.Find(item => item.type == inItem.type);
         if (existingItem != null)
         {
-            existingItem.Amount += inItem.Amount;
+            existingItem.amount++;
         }
         else
         {
@@ -38,11 +38,13 @@ public class CharacterInventory : MonoBehaviour, IDataPersistance
 
     public void LoadData(GameData data)
     {
-        inventory = new List<Item>(data.playerInventory);
+        inventory = data.playerInventory != null 
+            ? new List<Item>(data.playerInventory) 
+            : new List<Item>();
     }
 
     public void SaveData(ref GameData data)
     {
-        data.playerInventory = inventory;
+        data.playerInventory = new List<Item>(inventory);
     }
 }

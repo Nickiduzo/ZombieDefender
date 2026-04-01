@@ -26,6 +26,11 @@ public class CharacterMovement : MonoBehaviour
 
     private void Update()
     {
+        if(DialogManager.Instance.GetCurrentDialogState())
+        {
+            return;
+        }
+
         if (PlayerManager.instance.IsPlayerDead())
         {
             return;

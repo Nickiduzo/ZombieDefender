@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InventoryPanel : MonoBehaviour
@@ -6,23 +7,39 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private GameObject inventoryUI;
     [SerializeField] private GameObject itemUI;
     [SerializeField] private Transform panel;
+    
     [SerializeField] private CharacterInventory characterInventory;
+    [SerializeField] private CharacterMoney characterMoney;
+
+    [SerializeField] private TextMeshProUGUI amountOfMoney;
 
     [SerializeField] private List<GameObject> inventoryStuff;
 
+    private void OnEnable()
+    {
+        CharacterMoney.OnMoneyChanged += UpdateMoney;
+    }
+
+    private void OnDisable()
+    {
+        CharacterMoney.OnMoneyChanged -= UpdateMoney;
+    }
+
     private void Start()
     {
+        UpdateMoney(characterMoney.money);
+
         inventoryStuff = new List<GameObject>();
-        if(characterInventory == null)
+        if (characterInventory == null)
         {
             Debug.Log("Character Inventory is not assigned in the inspector.");
         }
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            if(inventoryUI.activeSelf)
+            if (inventoryUI.activeSelf)
             {
                 inventoryUI.SetActive(false);
                 SwitchOff();
@@ -35,6 +52,11 @@ public class InventoryPanel : MonoBehaviour
         }
     }
 
+    private void UpdateMoney(int amount)
+    {
+        amountOfMoney.text = amount.ToString();
+    }
+
     private void SwitchOn()
     {
         List<Item> items = characterInventory.GetInventory();
@@ -42,7 +64,7 @@ public class InventoryPanel : MonoBehaviour
         {
             GameObject temp = Instantiate(itemUI, panel);
             ItemUI stuff = temp.GetComponent<ItemUI>();
-            stuff.SetText(pattern.Type.ToString(), pattern.Amount);
+            stuff.SetText(pattern.type.ToString(), pattern.amount);
             inventoryStuff.Add(temp);
         }
     }
