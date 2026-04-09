@@ -15,10 +15,7 @@ public class CharacterCombat : MonoBehaviour
     }
     private void Update()
     {
-        if (PlayerManager.instance.IsPlayerDead())
-        {
-            return;
-        }
+        if (IsCombatNotAvaible()) return;
 
         if (time <= 0 && !PlayerManager.instance.isJumped && !PlayerManager.instance.isNotInteractable)
         {
@@ -37,6 +34,7 @@ public class CharacterCombat : MonoBehaviour
         {
             time = timer;
             PlayerManager.instance.SetAttack(1);
+            AudioManager.Instance.Play(AudioType.Attack);
             OnAttack?.Invoke(0);
         }
     }
@@ -47,7 +45,14 @@ public class CharacterCombat : MonoBehaviour
         {
             time = timer;
             PlayerManager.instance.SetAttack(2);
+            AudioManager.Instance.Play(AudioType.Attack);
             OnAttack?.Invoke(1);
         }
+    }
+
+
+    public bool IsCombatNotAvaible()
+    {
+        return PlayerManager.instance.IsPlayerDead() || DialogManager.Instance.GetCurrentDialogState();
     }
 }

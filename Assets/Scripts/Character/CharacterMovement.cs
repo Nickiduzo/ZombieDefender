@@ -26,7 +26,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Update()
     {
-        if(DialogManager.Instance.GetCurrentDialogState())
+        if (DialogManager.Instance.GetCurrentDialogState())
         {
             return;
         }

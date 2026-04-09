@@ -10,6 +10,8 @@ public class CharacterAnimation : MonoBehaviour
     [SerializeField] private float timer = 1f;
     private float time;
 
+    private bool isDialogGoing = false;
+
     private Animator anim;
 
     private void Start()
@@ -27,6 +29,17 @@ public class CharacterAnimation : MonoBehaviour
 
     private void Update()
     {
+        if(DialogManager.Instance.GetCurrentDialogState())
+        {
+            isDialogGoing = true;
+            DialogHandler();
+            return;
+        }
+        else
+        {
+            isDialogGoing = false;
+        }
+
         if (PlayerManager.instance.IsPlayerDead())
         {
             return;
@@ -112,6 +125,7 @@ public class CharacterAnimation : MonoBehaviour
 
     private void HandlerAttackAnimation(int currentAttack)
     {
+        if (isDialogGoing) return;
         switch (currentAttack)
         {
             case 0: anim.SetTrigger("leftAttack");
@@ -122,6 +136,21 @@ public class CharacterAnimation : MonoBehaviour
                 break;
         }
     }
+
+    private void DialogHandler()
+    {
+        anim.SetBool("isMove", false);
+        anim.SetBool("isJumping", false);
+        anim.SetBool("isGrounded", true);
+        anim.SetBool("isFalling", false);
+        anim.SetBool("isBlock", false);
+    }
+
+    public void PlayRockStep()
+    {
+        AudioManager.Instance.Play(AudioType.RockStep);
+    }
+
 
     #region AnimationTrigger
 

@@ -45,6 +45,7 @@ public class CharacterHealth : MonoBehaviour
         {
             OnDamageUI?.Invoke(damage);
 
+            AudioManager.Instance.Play(AudioType.Hit);
             anim.SetTrigger("isDamaged");
             health -= damage;
             

@@ -19,6 +19,11 @@ public class DialogManager : MonoBehaviour
         }
     }
 
+    public void SetDialogState(bool state)
+    {
+        dialogState = state;
+    }
+
     public bool GetCurrentDialogState()
     {
         return dialogState;

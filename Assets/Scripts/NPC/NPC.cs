@@ -3,18 +3,12 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour, IInteractable
 {
-    [Header("Messages")]
-    [SerializeField] protected NPCData data;
-    [SerializeField] protected GameObject container;
-    [SerializeField] protected GameObject questionPrefab;
-    [SerializeField] protected GameObject textPrefab;
-
     [Header("Player Interaction")]
     [SerializeField] private Transform pointDefault;
     [SerializeField] private bool isInteraction = false;
     [SerializeField] private float distanceInteraction = 3f;
+    
     private Transform player;
-
 
     private Animator anim;
 
