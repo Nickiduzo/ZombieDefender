@@ -10,11 +10,5 @@ public class QuestItemUI : MonoBehaviour
     {
         questTitle.text = state.data.title;
 
-        questProgress.text = state.currentAmount + " / " + state.data.requiredAmount;
-
-        if(state.isCompleted)
-        {
-            questProgress.text += " (Done)";
-        }
     }
 }

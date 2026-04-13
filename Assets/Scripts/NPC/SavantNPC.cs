@@ -7,16 +7,30 @@ public class SavantNPC : NPC, ITalkable
     [SerializeField] private DialogData dialogData;
     [SerializeField] private DialogPanelUI dialogPanel;
 
-    private bool isTalking = false;
-    private bool isAlreadyTalked = false;
+    [SerializeField] private QuestData[] quests;
+
+    public bool isBeginTalked = false;
 
     public override void Interact(Transform target)
     {
         base.Interact(target);
-        Talk(dialogData);
+        if (!isBeginTalked)
+        {
+            isBeginTalked = true;
+            Talk(dialogData);
+        }
+        else
+        {
+            Talk(quests[0]);
+        }
     }
     public void Talk(DialogData data)
     {
         dialogPanel.DisplayNextParagraph(dialogData);
+    }
+
+    public void Talk(QuestData data)
+    {
+        dialogPanel.DisplayNextParagraph(data);
     }
 }

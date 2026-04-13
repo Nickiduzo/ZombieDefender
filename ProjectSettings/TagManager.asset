@@ -9,6 +9,8 @@ TagManager:
   - PatrollWaypoints
   - Enemy
   - Corpse
+  - Ground
+  - Rock
   layers:
   - Default
   - TransparentFX

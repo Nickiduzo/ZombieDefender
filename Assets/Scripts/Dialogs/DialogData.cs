@@ -5,5 +5,4 @@ public class DialogData : ScriptableObject
 {
     public string characterName;
     public string[] lines;
-    //public DialogChoice[] choices;
 }

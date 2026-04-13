@@ -22,6 +22,9 @@ public enum AudioType
     GrassStep,
     Attack,
     Hit,
+    DummyHit,
     Jump,
+    RockLand,
+    GroundLand,
     Music
 }

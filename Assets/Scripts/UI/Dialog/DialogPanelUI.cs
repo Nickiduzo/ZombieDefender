@@ -57,6 +57,40 @@ public class DialogPanelUI : MonoBehaviour
         }
     }
 
+    public void DisplayNextParagraph(QuestData data)
+    {
+        if(sentences.Count == 0)
+        {
+            if(!converstaionEnded)
+            {
+                StartConversation(data);
+            }
+            else if (converstaionEnded && !isTyping)
+            {
+                EndConversation();
+                return;
+            }
+        }
+
+        if(!isTyping)
+        {
+            p = sentences.Dequeue();
+    
+            typeDialogCoroutine = StartCoroutine(TypeDialogText(p));
+        }
+        else
+        {
+            FinishParagraphEarly();
+            return;
+        }
+
+        if(sentences.Count == 0)
+        {
+            converstaionEnded = true;
+            QuestManager.Instance.AddQuest(data);
+        }
+    }
+
     private void StartConversation(DialogData data)
     {
         if (!gameObject.activeSelf)
@@ -71,6 +105,22 @@ public class DialogPanelUI : MonoBehaviour
         {
             sentences.Enqueue(data.lines[i]);
         }  
+    }
+    
+    private void StartConversation(QuestData data)
+    {
+        if (!gameObject.activeSelf)
+        {
+            DialogManager.Instance.SetDialogState(true);
+            gameObject.SetActive(true);
+        }
+
+        npcName.text = data.title;
+
+        for (int i = 0; i < data.description.Length; i++)
+        {
+            sentences.Enqueue(data.description[i].ToString());
+        }
     }
 
     private void EndConversation()

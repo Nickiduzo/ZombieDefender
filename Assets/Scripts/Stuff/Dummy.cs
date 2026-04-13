@@ -20,6 +20,7 @@ public class Dummy : MonoBehaviour
     {
         if (UniqueID == id)
         {
+            AudioManager.Instance.Play(AudioType.DummyHit);
             anim.SetTrigger("isAttacked");
             OnDamage(damage);
         }

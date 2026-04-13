@@ -106,6 +106,7 @@ public class CharacterAnimation : MonoBehaviour
     private void HandlerJumpAnimation(bool isJump)
     {
         anim.SetBool("isJumping", isJump);
+        PlayJumpSound();
     }
 
     private void HandlerLandAnimation(bool isGrounded)
@@ -146,11 +147,46 @@ public class CharacterAnimation : MonoBehaviour
         anim.SetBool("isBlock", false);
     }
 
-    public void PlayRockStep()
+    private void PlayJumpSound()
     {
-        AudioManager.Instance.Play(AudioType.RockStep);
+        AudioManager.Instance.Play(AudioType.Jump);
     }
 
+    public void PlayLandSound()
+    {
+        AudioType type = GetGroundType() == AudioType.GrassStep ? AudioType.GroundLand : AudioType.RockLand;
+        AudioManager.Instance.Play(type);
+    }
+
+    public void PlayStep()
+    {
+        AudioType type = GetGroundType();
+        AudioManager.Instance.Play(type);
+    }
+
+    // Future logic for detecting ground
+    private AudioType GetGroundType()
+    {
+        RaycastHit hit;
+
+        Vector3 origin = transform.position + Vector3.up * 0.1f; // Slightly above the character's position
+
+        if (Physics.Raycast(origin, Vector3.down, out hit, 1.5f))
+        {
+            if (hit.collider.CompareTag("Ground"))
+            {
+                return AudioType.GrassStep;
+            }
+            else if (hit.collider.CompareTag("Rock"))
+            {
+                return AudioType.RockStep;
+            }
+        }
+
+        return AudioType.GrassStep;
+    }
+
+    //
 
     #region AnimationTrigger
 

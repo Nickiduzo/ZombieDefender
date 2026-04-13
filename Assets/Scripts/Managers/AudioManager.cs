@@ -11,7 +11,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] rockSteps;
     public AudioClip[] attackClips;
     public AudioClip[] hitClips;
-    public AudioClip[] jumpClips;
+    public AudioClip[] characterJump;
+    public AudioClip[] rockLand;
+    public AudioClip[] groundLand;
+    public AudioClip[] dummyHit;
 
     private void Awake()
     {
@@ -35,7 +38,10 @@ public class AudioManager : MonoBehaviour
         AddAudioFromArray(rockSteps, AudioType.RockStep);
         AddAudioFromArray(attackClips, AudioType.Attack);
         AddAudioFromArray(hitClips, AudioType.Hit);
-        AddAudioFromArray(jumpClips, AudioType.Jump);
+        AddAudioFromArray(characterJump, AudioType.Jump);
+        AddAudioFromArray(rockLand, AudioType.RockLand);
+        AddAudioFromArray(groundLand, AudioType.GroundLand);
+        AddAudioFromArray(dummyHit, AudioType.DummyHit);
 
         foreach (Audio audio in sounds)
         {
@@ -56,7 +62,7 @@ public class AudioManager : MonoBehaviour
                 clip = clip,
                 type = type,
                 loop = false,
-                volume = 1f
+                volume = 0.1f
             };
             sounds.Add(audio);
         }

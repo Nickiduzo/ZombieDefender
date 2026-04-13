@@ -43,20 +43,37 @@ public class QuestManager : MonoBehaviour
         OnQuestListChanged?.Invoke();
     }
 
-    public void AddProgress(QuestData quest, int amount)
+    public void AddItemProgress(QuestData quest, int amount)
     {
         var q = activeQuests.Find(x => x.data == quest);
 
         if (q == null) return;
 
-        q.currentAmount += amount;
+        q.currentAmountItems += amount;
 
-        if(q.currentAmount >= quest.requiredAmount)
+        if(q.currentAmountItems >= quest.amountItems)
         {
-            q.isCompleted = true;
+            q.isCompletedItemQuest = true;
             Debug.Log("Quest completed: " + quest.title);
         }
 
+        OnQuestListChanged?.Invoke();
+    }
+
+    public void AddKillProgress(QuestData quest, int amount)
+    {
+        var q = activeQuests.Find(x => x.data == quest);
+        
+        if (q == null) return;
+        
+        q.currentAmountKills += amount;
+        
+        if (q.currentAmountKills >= quest.amountKills)
+        {
+            q.isCompletedKillQuest = true;
+            Debug.Log("Quest completed: " + quest.title);
+        }
+        
         OnQuestListChanged?.Invoke();
     }
 }
